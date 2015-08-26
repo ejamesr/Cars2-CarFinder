@@ -1,0 +1,112 @@
+﻿
+<div class="container" ng-app="CarFinderApp">
+    <div class="row">
+        <h1>Find A Car!</h1>
+        <h3>Lots to choose from... hurry before they're scrapped!</h3>
+        <br />
+        <div ng-controller="BobController">
+            <div class="container">
+                <div class="row">
+
+                    <div class="main-grp">
+                        <!-- main-grp -->
+
+                        <div class="row">
+                            <div class="heading">
+                                Year:
+                            </div>
+                            <div class="selection">
+                                <select ng-model="selectedYear" ng-options="year for year in years" ng-change="getMakes()" class="form-control">
+                                    <option value=""> Select year </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="heading">
+                                Make:
+                            </div>
+                            <div class="selection">
+                                <select id="yMake" ng-model="selectedMake" ng-options="make for make in makes" ng-change="getModels()" class="form-control">
+                                    <option value=""> Select make </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="heading">
+                                Model:
+                            </div>
+                            <div class="selection">
+                                <select id="yModel" ng-model="selectedModel" ng-options="model for model in models" ng-change="getTrims()" class="form-control">
+                                    <option value=""> Select model </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="heading">
+                                Model:
+                            </div>
+                            <div class="selection">
+                                <select id="yTrim" ng-model="selectedTrim" ng-options="trim for trim in trims" ng-change="getCars()" class="form-control">
+                                    <option value=""> Select trim </option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div> <!-- main-grp -->
+
+                    <div class="car-grp"> <!-- car-grp -->
+                        <div class="clearfix" ng-repeat="car in viewModel">
+                            <div class="cars">
+                                <span class="clearfix"> </span>
+                                <br />
+                                @*<div class="car-grp"><span class="car-heading">Id</span><span class="car-data">{{ car.id ? car.id : "n/a" }}</span></div>*@
+                                <div class="car-grp"><span class="car-heading">Make</span><span class="car-data">{{ car.make ? car.make : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Model</span><span class="car-data">{{ car.model_name ? car.model_name : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Trim</span><span class="car-data">{{ car.model_trim ? car.model_trim : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Year</span><span class="car-data">{{ car.model_year ? car.model_year : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Body style</span><span class="car-data">{{ car.body_style ? car.body_style : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Engine position</span><span class="car-data">{{ car.engine_position ? car.engine_position : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Engine cc</span><span class="car-data">{{ car.engine_cc ? car.engine_cc : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Num cylinders</span><span class="car-data">{{ car.engine_num_cyl ? car.engine_num_cyl : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Engine type</span><span class="car-data">{{ car.engine_type ? car.engine_type : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Valves per cyl</span><span class="car-data">{{ car.engine_valves_per_cyl ? car.engine_valves_per_cyl : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Horsepower</span><span class="car-data">{{ car.engine_power_ps ? car.engine_power_ps : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Power - rpm</span><span class="car-data">{{ car.engine_power_rpm ? car.engine_power_rpm : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Power - torque</span><span class="car-data">{{ car.engine_torque_nm ? car.engine_torque_nm : "n/a" }}</span></div>
+                                <div class="car-grp">
+                                    <span class="car-heading">Torque rpm</span>
+                                    <span class="car-data">{{ car.engine_torque_rpm ? car.engine_torque_rpm : "n/a" }}</span>
+                                </div>
+                                <div class="car-grp"><span class="car-heading">Bore (mm)</span><span class="car-data">{{ car.engine_bore_mm ? car.engine_bore_mm : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Stroke (mm)</span><span class="car-data">{{ car.engine_stroke_mm ? car.engine_stroke_mm : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Compression ratio</span><span class="car-data">{{ car.engine_compression ? car.engine_compression : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Fuel</span><span class="car-data">{{ car.engine_fuel ? car.engine_fuel : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Top speed (kph)</span><span class="car-data">{{ car.top_speed_kph ? car.top_speed_kph : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Zero to 100kph</span><span class="car-data">{{ car.zero_to_100_kph ? car.zero_to_100_kph : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Drive type</span><span class="car-data">{{ car.drive_type ? car.drive_type : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Transmission type</span><span class="car-data">{{ car.transmission_type ? car.transmission_type : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading"># seats</span><span class="car-data">{{ car.seats ? car.seats : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading"># doors</span><span class="car-data">{{ car.doors ? car.doors : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Weight (kg)</span><span class="car-data">{{ car.weight_kg ? car.weight_kg : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Length (mm)</span><span class="car-data">{{ car.length_mm ? car.length_mm : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Width (mm)</span><span class="car-data">{{ car.width_mm ? car.width_mm : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Height (mm)</span><span class="car-data">{{ car.height_mm ? car.height_mm : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Wheelbase</span><span class="car-data">{{ car.wheelbase ? car.wheelbase : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Highway (lkm)</span><span class="car-data">{{ car.lkm_hwy ? car.lkm_hwy : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Mixed (lkm)</span><span class="car-data">{{ car.lkm_mixed ? car.lkm_mixed : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">City (lkm)</span><span class="car-data">{{ car.lkm_city ? car.lkm_city : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Fuel capacity (l)</span><span class="car-data">{{ car.fuel_capacity_l ? car.fuel_capacity_l : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Sold in U.S.</span><span class="car-data">{{ car.sold_in_us ? car.sold_in_us : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">CO2</span><span class="car-data">{{ car.co2 ? car.co2 : "n/a" }}</span></div>
+                                <div class="car-grp"><span class="car-heading">Make</span><span class="car-data">{{ car.make_display ? car.make_display : "n/a" }}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

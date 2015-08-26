@@ -1,0 +1,8 @@
+﻿.cars {
+    background-image:
+         url(http://www.clker.com/cliparts/b/4/7/d/1381922723898680141cloned-cars-scrap-yard.jpg),
+        url(http://media.caranddriver.com/images/media/486017/2013-10best-cars-map-photo-490515-s-original.jpg);       
+    background-repeat: no-repeat, repeat;
+    width: auto;
+    height: 800px;
+}

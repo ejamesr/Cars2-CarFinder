@@ -1,0 +1,38 @@
+﻿
+<div class="container" ng-app="CarFinderApp">
+    <div class="row">
+        <h1>Find A Car!</h1>
+        <h3>Lots to choose from... hurry before they're scrapped!</h3>
+
+
+    <div ng-controller="BobController">
+        <div class="row">
+            <div class="col-md-3">
+                <select ng-model="selectedYear" ng-options="year for year in years" ng-change="getMakes()" class="form-control">
+                    <option value=''>-- Please select a year --</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select ng-model="selectedMake" ng-options="make for make in makes" ng-change="getModels()" class="form-control">
+                    <option value='' id="#make"></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select ng-model="selectedModel" ng-options="model for model in models" ng-change="getTrims()" class="form-control">
+                    <option value='' id="#model"></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select ng-model="selectedTrim" ng-options="trim for trim in trims" ng-change="getCars()" class="form-control">
+
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            @*Place code here for the display*@
+        </div>
+    </div>
+    <div class="cars">
+    </div>
+</div>
