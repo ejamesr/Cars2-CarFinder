@@ -73,7 +73,7 @@ namespace Cars2.Controllers
             var retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMake @year, @make",
                 new SqlParameter("year", year),
                 new SqlParameter("make", make));
-            return retval;
+            return retval.ToList<Car>();
         }
 
         /// <summary>
@@ -83,13 +83,40 @@ namespace Cars2.Controllers
         /// <param name="make">The car make</param>
         /// <param name="model">The car model</param>
         /// <returns>List of cars for specified model year, make, and model</returns>
-        public IEnumerable<Car> GetCarsByYearMakeModel(int year, string make, string model)
+        public async Task<IHttpActionResult> GetCarsByYearMakeModel(int year, string make, string model)
         {
+            ViewModel viewModel = new ViewModel();
             var retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModel @year, @make, @model",
                 new SqlParameter("year", year),
                 new SqlParameter("make", make),
                 new SqlParameter("model", model));
-            return retval;
+            viewModel.cars = retval.ToList<Car>();
+            // Get NHTSA info...
+            if (viewModel.cars.Count > 0)
+            {
+                // Get info on the first car...
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        HttpResponseMessage response;
+                        client.BaseAddress = new System.Uri("http://www.nhtsa.gov");
+                        response = await client.GetAsync(
+                            "webapi/api/recalls/vehicle/modelyear/" + viewModel.cars[0].model_year.ToString() +
+                            "/make/" + viewModel.cars[0].make +
+                            "/model/" + viewModel.cars[0].model_name +
+                            "?format=json");
+                        var temp = await response.Content.ReadAsStringAsync();
+                        viewModel.recalls = JsonConvert.DeserializeObject(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        return InternalServerError(e);
+                    }
+                }
+            }
+            else viewModel.recalls = null;
+            return Ok(viewModel);
         }
 
         /// <summary>
@@ -109,7 +136,7 @@ namespace Cars2.Controllers
                     new SqlParameter("year", year),
                     new SqlParameter("make", make),
                     new SqlParameter("model", model));
-                viewModel.cars = retval.ToArray<Car>()[0];
+                viewModel.cars = retval.ToList<Car>();
             }
             else
             {
@@ -118,31 +145,35 @@ namespace Cars2.Controllers
                     new SqlParameter("make", make),
                     new SqlParameter("model", model),
                     new SqlParameter("trim", trim));
-                    viewModel.cars = retval.ToArray<Car>()[0];
+                    viewModel.cars = retval.ToList<Car>();
             }
-
+            CheckDifferences(viewModel);
 
             // Get NHTSA info...
-
-            using (var client = new HttpClient())
+            if (viewModel.cars.Count > 0)
             {
-                try
+                // Get info on the first car...
+                using (var client = new HttpClient())
                 {
-                    HttpResponseMessage response;
-                    client.BaseAddress = new System.Uri("http://www.nhtsa.gov");
-                    response = await client.GetAsync(
-                        "webapi/api/recalls/vehicle/modelyear/" + viewModel.cars.model_year.ToString() +
-                        "/make/" + viewModel.cars.make +
-                        "/model/" + viewModel.cars.model_name +
-                        "?format=json");
-                    var temp = await response.Content.ReadAsStringAsync();
-                    viewModel.recalls = JsonConvert.DeserializeObject(temp);
-                }
-                catch (Exception e)
-                {
-                    return InternalServerError(e);
+                    try
+                    {
+                        HttpResponseMessage response;
+                        client.BaseAddress = new System.Uri("http://www.nhtsa.gov");
+                        response = await client.GetAsync(
+                            "webapi/api/recalls/vehicle/modelyear/" + viewModel.cars[0].model_year.ToString() +
+                            "/make/" + viewModel.cars[0].make +
+                            "/model/" + viewModel.cars[0].model_name +
+                            "?format=json");
+                        var temp = await response.Content.ReadAsStringAsync();
+                        viewModel.recalls = JsonConvert.DeserializeObject(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        return InternalServerError(e);
+                    }
                 }
             }
+            else viewModel.recalls = null;
 
             // Get images...
 
@@ -150,12 +181,17 @@ namespace Cars2.Controllers
             // Because this is async, need to return via Ok()
             return Ok(viewModel);
         }
+
+        private void CheckDifferences(ViewModel model)
+        {
+
+        }
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ViewModel
     {
-        public Car cars;
+        public List<Car> cars;
         public object recalls;
         public object images;
     }

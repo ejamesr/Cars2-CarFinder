@@ -40,6 +40,11 @@ app.factory('carSvc', ['$http', function ($http) {
             .then(function (response) {
                 return response.data;
             });
+
+        for (var propertyName in x) {
+            var y = propertyName;
+            var z = x[propertyName];
+        }
         return x;
     };
 
@@ -49,6 +54,7 @@ app.factory('carSvc', ['$http', function ($http) {
             .then(function (response) {
                 return response.data;
             });
+
         return x;
     };
 

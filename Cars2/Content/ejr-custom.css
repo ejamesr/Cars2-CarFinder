@@ -49,7 +49,13 @@ span.car-data {
 }
 
 div.cars {
-    margin-bottom: 10px;
+    margin-bottom: 1px;
     background-color: #fafafa;
     float: left;
+}
+div.cars.odd {
+    background-color: #f1f1f1;
+}
+.car-data.diff {
+    color:red;
 }
