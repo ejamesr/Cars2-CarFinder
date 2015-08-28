@@ -86,10 +86,16 @@ namespace Cars2.Controllers
         public async Task<IHttpActionResult> GetCarsByYearMakeModel(int year, string make, string model)
         {
             ViewModel viewModel = new ViewModel();
-            var retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModel @year, @make, @model",
-                new SqlParameter("year", year),
-                new SqlParameter("make", make),
-                new SqlParameter("model", model));
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<Car> retval;
+            if (ApplicationDbContext.IsDefault)
+                retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModel @year, @make, @model",
+                    new SqlParameter("year", year),
+                    new SqlParameter("make", make),
+                    new SqlParameter("model", model));
+            else retval = db.Database.SqlQuery<Car>("EXEC GetCars @year, @make, @model",
+                    new SqlParameter("year", year),
+                    new SqlParameter("make", make),
+                    new SqlParameter("model", model));
             viewModel.cars = retval.ToList<Car>();
             // Get NHTSA info...
             if (viewModel.cars.Count > 0)
@@ -114,6 +120,27 @@ namespace Cars2.Controllers
                         return InternalServerError(e);
                     }
                 }
+                // Now, get images...
+                using (var images = new WebClient())
+                {
+                    try
+                    {
+                        //// Show me as the referrer (optional, works locally only)
+                        //images.Headers.Add("Referrer", "http://localhost:64259");
+
+                        string searchStr = year + "%20" + make + "%20" + model;
+
+                        var temp = images.DownloadString(
+                            "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" +
+                            searchStr);
+                        viewModel.imageSearchString = searchStr;
+                        viewModel.images = JsonConvert.DeserializeObject(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        return InternalServerError(e);
+                    }
+                }
             }
             else viewModel.recalls = null;
             return Ok(viewModel);
@@ -130,9 +157,15 @@ namespace Cars2.Controllers
         public async Task<IHttpActionResult> GetCarsByYearMakeModelTrim(int year, string make, string model, string trim)
         {
             ViewModel viewModel = new ViewModel();
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<Car> retval;
             if (String.IsNullOrEmpty(trim))
             {
-                var retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModel @year, @make, @model",
+                if (ApplicationDbContext.IsDefault)
+                    retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModel @year, @make, @model",
+                        new SqlParameter("year", year),
+                        new SqlParameter("make", make),
+                        new SqlParameter("model", model));
+                else retval = db.Database.SqlQuery<Car>("EXEC GetCars @year, @make, @model",
                     new SqlParameter("year", year),
                     new SqlParameter("make", make),
                     new SqlParameter("model", model));
@@ -140,14 +173,19 @@ namespace Cars2.Controllers
             }
             else
             {
-                var retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModelTrim @year, @make, @model, @trim",
+                if (ApplicationDbContext.IsDefault)
+                    retval = db.Database.SqlQuery<Car>("EXEC GetCarsByYearMakeModelTrim @year, @make, @model, @trim",
+                        new SqlParameter("year", year),
+                        new SqlParameter("make", make),
+                        new SqlParameter("model", model),
+                        new SqlParameter("trim", trim));
+                else retval = db.Database.SqlQuery<Car>("EXEC GetCars @year, @make, @model, @trim",
                     new SqlParameter("year", year),
                     new SqlParameter("make", make),
                     new SqlParameter("model", model),
                     new SqlParameter("trim", trim));
-                    viewModel.cars = retval.ToList<Car>();
+                viewModel.cars = retval.ToList<Car>();
             }
-            CheckDifferences(viewModel);
 
             // Get NHTSA info...
             if (viewModel.cars.Count > 0)
@@ -172,19 +210,36 @@ namespace Cars2.Controllers
                         return InternalServerError(e);
                     }
                 }
+
+                // Now, get images...
+                using (var images = new WebClient())
+                {
+                    try
+                    {
+                        //// Show me as the referrer (optional, works locally only)
+                        //images.Headers.Add("Referrer", "http://localhost:64259");
+
+                        string searchStr = year + "%20" + make + "%20" + model +
+                            (string.IsNullOrEmpty(trim) ? "" : ("%20" + trim));
+
+                        var temp = images.DownloadString(
+                            "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" +
+                            searchStr);
+                        viewModel.imageSearchString = searchStr;
+                        viewModel.images = JsonConvert.DeserializeObject(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        return InternalServerError(e);
+                    }
+                }
             }
             else viewModel.recalls = null;
 
-            // Get images...
 
 
             // Because this is async, need to return via Ok()
             return Ok(viewModel);
-        }
-
-        private void CheckDifferences(ViewModel model)
-        {
-
         }
     }
 
@@ -194,5 +249,6 @@ namespace Cars2.Controllers
         public List<Car> cars;
         public object recalls;
         public object images;
+        public string imageSearchString;
     }
 }

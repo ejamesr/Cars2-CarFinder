@@ -62,7 +62,6 @@ app.controller('BobController', ['$scope', '$http', 'carSvc', function($scope, $
         if (data.cars.length > 1) {
             // There are multiple cars, so identify all fields where the data is different
             var c = data.cars;
-            data.gotCars = true;
             var base = c[0];      // Compare all other rows with this one
             // Now trace thru all properties...
             // And use normal 'for' loop since it's faster...

@@ -26,7 +26,18 @@ namespace Cars2.Controllers
         public IEnumerable<string> GetYears()
         {
             var retval = db.Database.SqlQuery<string>("EXEC GetYears");
-            return retval;
+            // Depending on the database used and the stored procedure implemented, 
+            // the returned list could be ASC or DESC.  We want it in DESC order, 
+            // so test and reverse if necessary
+            var z = retval.ToArray<string>();
+            if (z.Length > 1){
+                string first = z[0];
+                string last = z[retval.Count() - 1];
+                int x = System.String.Compare(first, last);
+                if (x < 0)
+                    Array.Reverse(z);
+            }
+            return z;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -49,7 +60,11 @@ namespace Cars2.Controllers
         [Route("makes")]
         public IEnumerable<string> GetYearMakes(int year)
         {
-            var retval = db.Database.SqlQuery<string>("EXEC GetYearMakes @year",
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> retval;
+            if (ApplicationDbContext.IsDefault)
+                retval = db.Database.SqlQuery<string>("EXEC GetYearMakes @year",
+                    new SqlParameter("year", year));
+            else retval = db.Database.SqlQuery<string>("EXEC GetMakes @year",
                 new SqlParameter("year", year));
             return retval;
         }
@@ -63,9 +78,14 @@ namespace Cars2.Controllers
         [Route("models")]
         public IEnumerable<string> GetYearMakeModels(int year, string make)
         {
-            var retval = db.Database.SqlQuery<string>("EXEC GetYearMakeModels @year, @make",
-                new SqlParameter("year", year),
-                new SqlParameter("make", make));
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> retval;
+            if (ApplicationDbContext.IsDefault)
+                retval = db.Database.SqlQuery<string>("EXEC GetYearMakeModels @year, @make",
+                    new SqlParameter("year", year),
+                    new SqlParameter("make", make));
+            else retval = db.Database.SqlQuery<string>("EXEC GetModels @year, @make",
+                    new SqlParameter("year", year),
+                    new SqlParameter("make", make));
             return retval;
         }
 
@@ -79,10 +99,16 @@ namespace Cars2.Controllers
         [Route("trims")]
         public IEnumerable<string> GetYearMakeModelTrims(int year, string make, string model)
         {
-            var retval = db.Database.SqlQuery<string>("EXEC GetYearMakeModelTrims @year, @make, @model",
-                new SqlParameter("year", year),
-                new SqlParameter("make", make),
-                new SqlParameter("model", model));
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> retval;
+            if (ApplicationDbContext.IsDefault)
+                retval = db.Database.SqlQuery<string>("EXEC GetYearMakeModelTrims @year, @make, @model",
+                    new SqlParameter("year", year),
+                    new SqlParameter("make", make),
+                    new SqlParameter("model", model));
+            else retval = db.Database.SqlQuery<string>("EXEC GetTrims @year, @make, @model",
+                    new SqlParameter("year", year),
+                    new SqlParameter("make", make),
+                    new SqlParameter("model", model));
             return retval;
         }
     }

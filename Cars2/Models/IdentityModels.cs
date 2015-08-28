@@ -20,9 +20,19 @@ namespace Cars2.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        // For local db:            DefaultConnection
+        // For CoderFoundry web db: CFWebHCL3
+        //
+        // Set 'connection' to one of the above strings
+
+        private const string connection = "DefaultConnection";
+
+        public static readonly bool IsDefault = connection.Equals("DefaultConnection");
+
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base(connection, throwIfV1Schema: false)
         {
+
         }
         
         public static ApplicationDbContext Create()

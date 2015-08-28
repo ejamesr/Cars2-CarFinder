@@ -236,6 +236,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -245,6 +246,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="ImgSearchGoogle.html" />
     <Content Include="NgApps\app.js" />
     <Content Include="NgApps\Controllers\NgCarFinderController.js" />
     <Content Include="NgApps\Services\NgCarFinderFactory.js" />
@@ -1094,7 +1096,6 @@
     <Content Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="NgApps\Directives\" />
     <Folder Include="NgApps\Templates\" />
   </ItemGroup>

@@ -3,4 +3,5 @@
   <IisApp path="C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Release\Package\PackageTmp" managedRuntimeVersion="v4.0" />
   <setAcl path="C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
   <setAcl path="C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+  <setAcl path="C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Release\Package\PackageTmp\App_Data" setAclResourceType="Directory" setAclAccess="Write" />
 </sitemanifest>
