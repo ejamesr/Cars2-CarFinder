@@ -98,13 +98,13 @@
                             <div class="car-img" ng-show="carView.imageSearchString!=null" ng-repeat="pic in carView.images.responseData.results">
                                 <figure>
                                     <img class="car-img img-responsive" src={{pic.unescapedUrl}}>
-                                    <figcaption>{{pic.titleNoFormatting}}</figcaption>
+                                    <figcaption>{{pic.titleNoFormatting | fixAmp: selectedYear :selectedMake :selectedModel}}</figcaption>
                                 </figure>
                             </div>
                         </div>
                         <div class="tab-pane active" id="MyCars">
                             <div ng-show=carView.gotCars class="text-center">
-                                <span class="diff">Fields that differ are red</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="">Unchanged fields are black </span>
+                                <span class="diff">Fields that differ are red</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="same">Unchanged fields are black </span>
                             </div>
                             <div ngclass={{carView.cars ? "car-grp" : "hidden"}}>
                                 <!-- car-grp -->

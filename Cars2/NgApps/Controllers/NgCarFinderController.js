@@ -1,5 +1,4 @@
-﻿
-var app = angular.module('CarFinderApp', []);
+﻿var app = angular.module('CarFinderApp');
 
 app.controller('BobController', ['$scope', '$http', 'carSvc', function($scope, $http, carSvc) {
     $scope.selectedYear = '';

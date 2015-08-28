@@ -58,6 +58,10 @@ div.cars.odd {
     color:red;
     font-weight: 600;
 }
+.same {
+    font-weight: 600;
+    color: black;
+}
 div.recall {
     float: left;
 }
@@ -113,4 +117,6 @@ div.thumb {
 }
 figcaption {
     margin-bottom: 15px;
+    text-align: left;
+    padding-left: 20px;
 }

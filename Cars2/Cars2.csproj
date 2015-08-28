@@ -249,6 +249,7 @@
     <Content Include="ImgSearchGoogle.html" />
     <Content Include="NgApps\app.js" />
     <Content Include="NgApps\Controllers\NgCarFinderController.js" />
+    <Content Include="NgApps\Filters\NgFilters.js" />
     <Content Include="NgApps\Services\NgCarFinderFactory.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
