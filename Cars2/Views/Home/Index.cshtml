@@ -98,7 +98,12 @@
                             <div class="car-img" ng-show="carView.imageSearchString!=null" ng-repeat="pic in carView.images.responseData.results">
                                 <figure>
                                     <img class="car-img img-responsive" src={{pic.unescapedUrl}}>
-                                    <figcaption>{{pic.titleNoFormatting | fixAmp: selectedYear :selectedMake :selectedModel}}</figcaption>
+                                    <figcaption>
+                                        {{pic.titleNoFormatting | fixAmp: selectedYear :selectedMake :selectedModel}} &nbsp;
+                                        [<a href="{{pic.originalContextUrl}}" target="_blank">
+                                            original context
+                                        </a>]
+                                    </figcaption>
                                 </figure>
                             </div>
                         </div>
