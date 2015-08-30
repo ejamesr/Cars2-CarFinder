@@ -20,14 +20,19 @@ namespace Cars2.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        // For local db:            DefaultConnection
-        // For CoderFoundry web db: CFWebHCL3
+        private enum Connections {
+            DefaultConnection,      // local connection - default
+            CFWebHCL3               // my database on Azure
+        }
         //
-        // Set 'connection' to one of the above strings
+        // Set 'connection' to one of the above enums
+        //
+        private static readonly string connection = Connections.
 
-        private const string connection = "DefaultConnection";
+            DefaultConnection       // <--- change this value to one of the above enums
 
-        public static readonly bool IsDefault = connection.Equals("DefaultConnection");
+            .ToString();
+
 
         public ApplicationDbContext()
             : base(connection, throwIfV1Schema: false)
@@ -39,5 +44,8 @@ namespace Cars2.Models
         {
             return new ApplicationDbContext();
         }
+
+        public static readonly bool IsDefault = 
+            connection.Equals(Connections.DefaultConnection.ToString());
     }
 }

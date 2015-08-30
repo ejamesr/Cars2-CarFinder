@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cars2.Models
 {
@@ -74,10 +75,12 @@ namespace Cars2.Models
         /// <summary>
         /// Number of cylinders (as an int)
         /// </summary>
+        [NotMapped]
         public int cyl { get; set; }                        // see engine_num_cyl
         /// <summary>
         /// Horsepower (as an int)
         /// </summary>
+        [NotMapped]
         public int hp { get; set; }                         // see engine_power_ps
 
         /*

@@ -122,4 +122,3 @@ C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\bin\System.Web.WebPag
 C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\bin\System.Web.Optimization.xml
 C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Debug\Cars2.dll
 C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Debug\Cars2.pdb
-C:\Users\ejame_000\Documents\Bootcamp\Projects\Cars2\Cars2\obj\Debug\Cars2.csprojResolveAssemblyReference.cache
