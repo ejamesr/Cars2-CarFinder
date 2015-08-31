@@ -56,14 +56,29 @@
                         </div>
 
                     </div> <!-- main-grp -->
-                    <div class="clearfix"></div>
+                    <!-- Show stock images when no car images available -->
+                    <div ng-show="carView.imageSearchString==null">
+                        <img class="stock" src="http://4.bp.blogspot.com/-Vcgk3dNXhug/ThFmezi76cI/AAAAAAAAAGA/2r9PUnTjGWg/s1600/2011_cars_2__01.jpg" height="185">
+                        <img class="stock" src="http://www.clker.com/cliparts/b/4/7/d/1381922723898680141cloned-cars-scrap-yard.jpg" height="185" />
+                        @*  <img class="stock" src="http://media.caranddriver.com/images/media/486017/2013-10best-cars-map-photo-490515-s-original.jpg" height="185" />*@
+                        <img class="stock flip" src="http://xdesktopwallpapers.com/wp-content/uploads/2012/12/Lots%20Of%20Cars%20Parked%20In%20Line.jpg" height="185" />
+                    </div>
 
-                    @*To display 'carView', uncomment next line...*@
+                    <!-- Show car image thumbnails when any are available-->
+                    <div class="thumb" ng-show="carView.imageSearchString!=null" ng-repeat="pic in carView.images.responseData.results">
+                        <img class="thumb" src={{pic.tbUrl}}>
+                    </div>
+                    <div class="clearfix"></div>
 
                     <ul id="carTabs" class="nav nav-tabs float" role="tablist">
                         <li role="presentation" class="active">
                             <a href="#MyCars" aria-controls="MyCars" role="tab" data-toggle="tab">
                                 Cars
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Images" aria-controls="Images" role="tab" data-toggle="tab">
+                                Images
                             </a>
                         </li>
                         <li role="presentation">
@@ -77,8 +92,23 @@
                             </a>
                         </li>
                     </ul>
+
                     <div id="carTabsContent" class="tab-content">
+                        <div class="tab-pane" id="Images">
+                            <div class="car-img" ng-show="carView.imageSearchString!=null" ng-repeat="pic in carView.images.responseData.results">
+                                <figure>
+                                    <img class="car-img img-responsive" src={{pic.unescapedUrl}}>
+                                    <figcaption>
+                                        {{pic.titleNoFormatting | fixAmp: selectedYear :selectedMake :selectedModel}} &nbsp;
+                                        [<a href="{{pic.originalContextUrl}}" target="_blank">visit website</a>]
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </div>
                         <div class="tab-pane active" id="MyCars">
+                            <div ng-show=carView.gotCars class="text-center">
+                                <span class="diff">Fields that differ are red</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="same">Unchanged fields are black </span>
+                            </div>
                             <div ngclass={{carView.cars ? "car-grp" : "hidden"}}>
                                 <!-- car-grp -->
                                 <div class="" ng-repeat="car in carView.cars">
@@ -160,7 +190,6 @@
                             <pre>{{ carView | json }}</pre>
                         </div>
                     </div>
-
 
                 </div>
             </div>

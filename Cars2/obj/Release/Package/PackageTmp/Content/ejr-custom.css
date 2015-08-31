@@ -8,12 +8,10 @@
 }
 div.main-grp {
     background-color: rgb(239, 239, 239);
-    padding-top:15px;
-    padding-bottom: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding:15px 15px 18px 15px;
+    border-radius: 8px;
+    margin-bottom: 7px;
+    margin-right: 5px;
 }
 div.heading {
     font-weight: 600;
@@ -56,8 +54,13 @@ div.cars.odd {
     background-color: #f1f1f1;
     border-radius: 10px;
 }
-.car-data.diff {
+.car-data.diff, .diff {
     color:red;
+    font-weight: 600;
+}
+.same {
+    font-weight: 600;
+    color: black;
 }
 div.recall {
     float: left;
@@ -75,8 +78,6 @@ div.recall {
     background-color: #cee6ee;
     border-radius: 10px;
 }
-
-
 .recall-heading {
     font-weight: 600;
     color: #3431d8;
@@ -87,4 +88,35 @@ div.recall {
     color: #3a3a3a;
     margin-left: 30px;
     margin-bottom: 5px;
+}
+img {
+    margin: 0px 2px 5px 2px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+img.flip {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+img.stock {
+    max-height: 185px;
+}
+img.thumb {
+    max-height: 185px;
+}
+img.car-img {
+    max-width: 100%;
+    margin-bottom: 0px;
+}
+div.thumb {
+    display: inline;
+}
+figcaption {
+    margin-bottom: 15px;
+    text-align: left;
+    padding-left: 20px;
 }

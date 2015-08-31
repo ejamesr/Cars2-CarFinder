@@ -1,4 +1,4 @@
-﻿//var app = angular.mod('CarFinderApp');
+﻿var app = angular.module('CarFinderApp');
 
 app.factory('carSvc', ['$http', function ($http) {
     var factory = {};

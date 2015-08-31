@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
 
 namespace Cars2.Models
 {
@@ -22,6 +23,7 @@ namespace Cars2.Models
     {
         private enum Connections {
             DefaultConnection,      // local connection - default
+            CarFinderWeb,            // my db on the web
             CFWebHCL3               // my database on Azure
         }
         //
@@ -29,7 +31,7 @@ namespace Cars2.Models
         //
         private static readonly string connection = Connections.
 
-            DefaultConnection       // <--- change this value to one of the above enums
+            CFWebHCL3            // <--- change this value to one of the above enums
 
             .ToString();
 
